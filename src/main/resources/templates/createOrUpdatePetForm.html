@@ -1,0 +1,71 @@
+{#include base}
+{#body}
+<h2>
+    {#if !pet}New{/if}
+    Pet
+  </h2>
+  <form class="form-horizontal" method="post">
+    <input type="hidden" name="id" value="" />
+    <div class="form-group has-feedback">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Owner</label>
+        <div class="col-sm-10">
+          <span>{owner.firstName}</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            <div>
+                <input class="form-control" type="text" id="name" name="name" value="{pet.name ?: ''}"/>
+            </div>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+            aria-hidden="true"></span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Birth Date</label>
+        <div class="col-sm-10">
+            <div>
+                <input class="form-control" type="text" placeholder="YYYY-MM-DD" id="birthDate" name="birthDate" value="{pet.birthDate ?: ''}"/>
+            </div>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+            aria-hidden="true"></span>
+          
+        </div>
+      </div>
+    
+      
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Type</label>
+
+        <div class="col-sm-10">
+          <select id="type" name="type">
+            {#for petType in petTypes}
+            <option value="{petType.name}" {#if petType.name == pet.type.name} selected {/if}>{petType.name}</option>
+            {/for}
+          </select>
+          <span class="glyphicon glyphicon-ok form-control-feedback"
+            aria-hidden="true"></span>
+          
+        </div>
+      </div>
+    
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button
+          class="btn btn-default" type="submit">
+          {#if pet}
+          Edit Pet
+          {#else}
+          Add Pet
+          {/if}
+        </button>
+      </div>
+    </div>
+  </form>
+  {/body}
+  {/include}

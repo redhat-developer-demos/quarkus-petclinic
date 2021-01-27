@@ -1,0 +1,78 @@
+{#include base} 
+  {#body}
+<h2>Owner Information</h2>
+  
+  
+    <table class="table table-striped">
+      <tr>
+        <th>Name</th>
+        <td><b>{owner.firstName} {owner.lastName}</b></td>
+      </tr>
+      <tr>
+        <th>Address</th>
+        <td>{owner.address}</td>
+      </tr>
+      <tr>
+        <th>City</th>
+        <td>{owner.city}</td>
+      </tr>
+      <tr>
+        <th>Telephone</th>
+        <td>{owner.telephone}</td>
+      </tr>
+    </table>
+  
+    <a href="/owners/{owner.id}/edit" class="btn btn-default">Edit
+      Owner</a>
+    <a href="/owners/{owner.id}/pets/new" class="btn btn-default">Add
+      New Pet</a>
+  
+    <br />
+    <br />
+    <br />
+    {#if owner.pets}
+    <h2>Pets and Visits</h2>
+  
+    <table class="table table-striped">
+        
+      {#for pet in owner.pets}
+      <tr>
+        <td valign="top">
+          <dl class="dl-horizontal">
+            <dt>Name</dt>
+            <dd>{pet.name}</dd>
+            <dt>Birth Date</dt>
+            <dd>{pet.birthDate.format('yyyy-MM-dd')}</dd>
+            <dt>Type</dt>
+            <dd>{pet.type.stringify}</dd>
+          </dl>
+        </td>
+        <td valign="top">
+          <table class="table-condensed">
+            <thead>
+              <tr>
+                <th>Visit Date</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td><a href="/owners/{owner.id}/pets/{pet.id}/edit">Edit Pet</a></td>
+                <td><a
+                  href="/owners/{owner.id}/pets/{pet.id}/visits/new"> Add
+                    Visit</a></td>
+              </tr>
+            </thead>
+            {#for visit in pet.visits}
+            <tr>
+              <td>{visit.date.format('yyyy-MM-dd')}</td>
+              <td>{visit.description ?: ''}</td>
+            </tr>
+            {/for}
+          </table>
+        </td>
+      </tr>
+      {/for}
+  
+    </table>
+    {/if}
+    {/body}
+    {/include}
