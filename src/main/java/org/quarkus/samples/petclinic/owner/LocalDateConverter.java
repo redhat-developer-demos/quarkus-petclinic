@@ -8,7 +8,7 @@ public class LocalDateConverter implements ParamConverter<LocalDate> {
 
     @Override
     public LocalDate fromString(String value) {
-        if (value == null)
+        if ("".equals(value.trim()))
             return null;
         return LocalDate.parse(value);
     }

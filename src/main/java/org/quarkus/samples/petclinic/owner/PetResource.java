@@ -4,8 +4,14 @@ package org.quarkus.samples.petclinic.owner;
 import org.quarkus.samples.petclinic.system.Templates;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,18 +25,21 @@ import io.quarkus.qute.TemplateInstance;
 @Path("/owners")
 public class PetResource {
     
+    @Inject
+    Validator validator;
+
     @GET
     @Path("{ownerId}/pets/new")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance createTemplate(@PathParam("ownerId") Long ownerId) {
-        return Templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll());
+        return Templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll(), new HashMap<>());
     }
 
     @GET
     @Path("{ownerId}/pets/{petId}/edit")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance editTemplate(@PathParam("ownerId") Long ownerId, @PathParam("petId") Long petId) {
-        return Templates.createOrUpdatePetForm(Owner.findById(ownerId), Pet.findById(petId), PetType.listAll());
+        return Templates.createOrUpdatePetForm(Owner.findById(ownerId), Pet.findById(petId), PetType.listAll(), new HashMap<>());
     }
 
     @POST
@@ -44,10 +53,24 @@ public class PetResource {
         pet.birthDate = birthDate;
         pet.name = name;
         pet.type = PetType.parse(type);
-        pet.persist();
 
-        owner.addPet(pet);
-        return Templates.ownerDetails(owner);
+
+        final Set<ConstraintViolation<Pet>> violations = validator.validate(pet);
+        final Map<String, String> errors = new HashMap<>();
+        if (!violations.isEmpty()) {
+            
+            for (ConstraintViolation<Pet> violation : violations) {
+                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
+            }
+
+            return Templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll(), errors);
+
+        } else {
+
+            pet.persist();
+            owner.addPet(pet);
+            return Templates.ownerDetails(owner);
+        }
     }
 
     @POST
@@ -55,12 +78,26 @@ public class PetResource {
     @Produces(MediaType.TEXT_HTML)
     @Transactional
     public TemplateInstance processUpdateForm(@PathParam("ownerId") Long ownerId, @PathParam("petId") Long petId, @FormParam("name") String name, @FormParam("birthDate") LocalDate birthDate, @FormParam("type") String type) {
-        Pet pet = Pet.findById(petId);
+        Pet pet = new Pet();
+        pet.id = petId;
         pet.birthDate = birthDate;
         pet.name = name;
         pet.type = PetType.parse(type);
 
-        return Templates.ownerDetails(pet.owner);
+        final Set<ConstraintViolation<Pet>> violations = validator.validate(pet);
+        final Map<String, String> errors = new HashMap<>();
+        if (!violations.isEmpty()) {
+            
+            for (ConstraintViolation<Pet> violation : violations) {
+                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
+            }
+
+            Pet oldPet = Pet.findById(petId);
+            return Templates.createOrUpdatePetForm(oldPet.owner, oldPet, PetType.listAll(), errors);
+
+        } else {
+            return Templates.ownerDetails(pet.attach().owner);
+        }
     }
 
 }

@@ -26,26 +26,31 @@
 <form class="form-horizontal" method="post">
     <div class="form-group has-feedback">
 
-        <div class="form-group">
+        <div class="form-group {#if errors['date'] != null} has-error {/if}">
             <label class="col-sm-2 control-label">Date</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" placeholder="YYYY-MM-DD"
                         id="date" name="date" value="{visit.date ?: ''}"/>
                 </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                <span class="glyphicon {#if errors['date'] != null} glyphicon-remove {#else} glyphicon-ok {/if} form-control-feedback" aria-hidden="true"></span>
+                {#if errors['date'] != null}
+                    <span class="help-inline">{errors['date']}</span>
+                {/if}
             </div>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group {#if errors['description'] != null} has-error {/if}">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" id="description" name="description" value="{visit.description ?: ''}" />
                 </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-
+                <span class="glyphicon {#if errors['description'] != null} glyphicon-remove {#else} glyphicon-ok {/if} form-control-feedback" aria-hidden="true"></span>
+                {#if errors['description'] != null}
+                    <span class="help-inline">{errors['description']}</span>
+                {/if}
             </div>
         </div>
 

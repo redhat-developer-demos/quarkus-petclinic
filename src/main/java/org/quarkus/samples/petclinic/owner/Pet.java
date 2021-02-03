@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.ws.rs.FormParam;
+import javax.validation.constraints.NotEmpty;
 
 import org.quarkus.samples.petclinic.visit.Visit;
 
@@ -26,6 +26,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 public class Pet extends PanacheEntity {
     
 	@Column(name = "name")
+	@NotEmpty
     public String name;
 
 	@Column(name = "birth_date")
@@ -41,6 +42,10 @@ public class Pet extends PanacheEntity {
 
 	@Transient
 	public Set<Visit> visits = new LinkedHashSet<>();
+
+	public Pet attach() {
+        return getEntityManager().merge(this);
+    }
 
     protected Set<Visit> getVisitsInternal() {
 		if (this.visits == null) {

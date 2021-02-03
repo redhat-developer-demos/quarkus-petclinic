@@ -1,13 +1,21 @@
 package org.quarkus.samples.petclinic.owner;
 
+import org.quarkus.samples.petclinic.system.LocaleVariantCreator;
 import org.quarkus.samples.petclinic.system.Templates;
 import org.quarkus.samples.petclinic.visit.Visit;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +30,9 @@ import io.quarkus.qute.TemplateInstance;
 @Path("/owners")
 public class OwnersResource {
 
+    @Inject
+    Validator validator;
+
     @GET
     @Path("/find")
     @Produces(MediaType.TEXT_HTML)
@@ -31,7 +42,8 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance findTemplate() {
-        return Templates.findOwners(Collections.EMPTY_LIST);
+        Locale forLanguageTag = Locale.forLanguageTag("es");
+        return Templates.findOwners(Collections.EMPTY_LIST).setAttribute(TemplateInstance.SELECTED_VARIANT, LocaleVariantCreator.locale(forLanguageTag));
     }
 
     @GET
@@ -43,7 +55,7 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance createTemplate() {
-        return Templates.createOrUpdateOwnerForm(null);
+        return Templates.createOrUpdateOwnerForm(null, new HashMap<>());
     }
 
     @GET
@@ -55,7 +67,7 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance editTemplate(@PathParam("ownerId") Long ownerId) {
-        return Templates.createOrUpdateOwnerForm(Owner.findById(ownerId));
+        return Templates.createOrUpdateOwnerForm(Owner.findById(ownerId), new  HashMap<>());
     }
 
     @GET
@@ -80,8 +92,20 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance processCreationForm(@BeanParam Owner owner) {
-        owner.persist();
-        return Templates.ownerDetails(owner);
+        final Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
+        final Map<String, String> errors = new HashMap<>();
+        if (!violations.isEmpty()) {
+            
+            for (ConstraintViolation<Owner> violation : violations) {
+                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
+            }
+
+            return Templates.createOrUpdateOwnerForm(null, errors);
+
+        } else {
+            owner.persist();
+            return Templates.ownerDetails(owner);
+        }
     }
     
     @POST
@@ -94,8 +118,20 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance processUpdateOwnerForm(@BeanParam Owner owner, @PathParam("ownerId") Long ownerId) {
-        // We need to reattach the Owner object. Since method is transactional, the update occurs automatically.
-        return Templates.ownerDetails(owner.attach());
+        final Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
+        final Map<String, String> errors = new HashMap<>();
+        if (!violations.isEmpty()) {
+            
+            for (ConstraintViolation<Owner> violation : violations) {
+                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
+            }
+
+            return Templates.createOrUpdateOwnerForm(owner, errors);
+
+        } else {
+            // We need to reattach the Owner object. Since method is transactional, the update occurs automatically.
+            return Templates.ownerDetails(owner.attach());
+        }
     }
 
     @GET
