@@ -5,19 +5,19 @@
   
     <table class="table table-striped">
       <tr>
-        <th>Name</th>
+        <th>{msg:name}</th>
         <td><b>{owner.firstName} {owner.lastName}</b></td>
       </tr>
       <tr>
-        <th>Address</th>
+        <th>{msg:address}</th>
         <td>{owner.address}</td>
       </tr>
       <tr>
-        <th>City</th>
+        <th>{msg:city}</th>
         <td>{owner.city}</td>
       </tr>
       <tr>
-        <th>Telephone</th>
+        <th>{msg:telephone}</th>
         <td>{owner.telephone}</td>
       </tr>
     </table>
@@ -31,7 +31,7 @@
     <br />
     <br />
     {#if owner.pets}
-    <h2>Pets and Visits</h2>
+    <h2>{msg:pets_and_visits}</h2>
   
     <table class="table table-striped">
         
@@ -39,11 +39,11 @@
       <tr>
         <td valign="top">
           <dl class="dl-horizontal">
-            <dt>Name</dt>
+            <dt>{msg:name}</dt>
             <dd>{pet.name}</dd>
-            <dt>Birth Date</dt>
+            <dt>{msg:birthdate}</dt>
             <dd>{pet.birthDate.format('yyyy-MM-dd')}</dd>
-            <dt>Type</dt>
+            <dt>{msg:type}</dt>
             <dd>{pet.type.stringify}</dd>
           </dl>
         </td>
@@ -51,14 +51,13 @@
           <table class="table-condensed">
             <thead>
               <tr>
-                <th>Visit Date</th>
-                <th>Description</th>
+                <th>{msg:visit_date}</th>
+                <th>{msg:description}</th>
               </tr>
               <tr>
-                <td><a href="/owners/{owner.id}/pets/{pet.id}/edit">Edit Pet</a></td>
+                <td><a href="/owners/{owner.id}/pets/{pet.id}/edit">{msg:edit_pet}</a></td>
                 <td><a
-                  href="/owners/{owner.id}/pets/{pet.id}/visits/new"> Add
-                    Visit</a></td>
+                  href="/owners/{owner.id}/pets/{pet.id}/visits/new">{msg:add_visit}</a></td>
               </tr>
             </thead>
             {#for visit in pet.visits}

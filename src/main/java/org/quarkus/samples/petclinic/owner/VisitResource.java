@@ -1,6 +1,7 @@
 package org.quarkus.samples.petclinic.owner;
 
 import org.quarkus.samples.petclinic.system.Templates;
+import org.quarkus.samples.petclinic.system.TemplatesLocale;
 import org.quarkus.samples.petclinic.visit.Visit;
 
 import java.util.HashMap;
@@ -25,13 +26,16 @@ import io.quarkus.qute.TemplateInstance;
 public class VisitResource {
     
     @Inject
+    TemplatesLocale templates;
+
+    @Inject
     Validator validator;
 
     @GET
     @Path("{ownerId}/pets/{petId}/visits/new")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance createTemplate(@PathParam("petId") Long petId) {
-        return Templates.createOrUpdateVisitForm(Pet.findById(petId), null, new HashMap<>());
+        return templates.createOrUpdateVisitForm(Pet.findById(petId), null, new HashMap<>());
     }
 
     @POST
@@ -49,14 +53,14 @@ public class VisitResource {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
 
-            return Templates.createOrUpdateVisitForm(pet, visit, errors);
+            return templates.createOrUpdateVisitForm(pet, visit, errors);
 
         } else {
             
             visit.persist();
 
             pet.addVisit(visit);
-            return Templates.ownerDetails(pet.owner);
+            return templates.ownerDetails(pet.owner);
         }
     }
 

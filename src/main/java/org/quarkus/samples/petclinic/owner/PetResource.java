@@ -2,6 +2,7 @@ package org.quarkus.samples.petclinic.owner;
 
 
 import org.quarkus.samples.petclinic.system.Templates;
+import org.quarkus.samples.petclinic.system.TemplatesLocale;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -26,20 +27,23 @@ import io.quarkus.qute.TemplateInstance;
 public class PetResource {
     
     @Inject
+    TemplatesLocale templates;
+
+    @Inject
     Validator validator;
 
     @GET
     @Path("{ownerId}/pets/new")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance createTemplate(@PathParam("ownerId") Long ownerId) {
-        return Templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll(), new HashMap<>());
+        return templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll(), new HashMap<>());
     }
 
     @GET
     @Path("{ownerId}/pets/{petId}/edit")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance editTemplate(@PathParam("ownerId") Long ownerId, @PathParam("petId") Long petId) {
-        return Templates.createOrUpdatePetForm(Owner.findById(ownerId), Pet.findById(petId), PetType.listAll(), new HashMap<>());
+        return templates.createOrUpdatePetForm(Owner.findById(ownerId), Pet.findById(petId), PetType.listAll(), new HashMap<>());
     }
 
     @POST
@@ -63,13 +67,13 @@ public class PetResource {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
 
-            return Templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll(), errors);
+            return templates.createOrUpdatePetForm(Owner.findById(ownerId), null, PetType.listAll(), errors);
 
         } else {
 
             pet.persist();
             owner.addPet(pet);
-            return Templates.ownerDetails(owner);
+            return templates.ownerDetails(owner);
         }
     }
 
@@ -93,10 +97,10 @@ public class PetResource {
             }
 
             Pet oldPet = Pet.findById(petId);
-            return Templates.createOrUpdatePetForm(oldPet.owner, oldPet, PetType.listAll(), errors);
+            return templates.createOrUpdatePetForm(oldPet.owner, oldPet, PetType.listAll(), errors);
 
         } else {
-            return Templates.ownerDetails(pet.attach().owner);
+            return templates.ownerDetails(pet.attach().owner);
         }
     }
 

@@ -1,11 +1,11 @@
 {#include base}
 {#body}
-<h2>Owner</h2>
+<h2>{msg:owner}</h2>
 <form class="form-horizontal" id="add-owner-form" method="post">
     <div class="form-group has-feedback">
 
         <div class="form-group {#if errors['firstName'] != null} has-error {/if}">
-            <label class="col-sm-2 control-label">First Name</label>
+            <label class="col-sm-2 control-label">{msg:name}</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" id="firstName" name="firstName" value="{owner.firstName ?: ''}" />
@@ -20,7 +20,7 @@
 
 
         <div class="form-group {#if errors['lastName'] != null} has-error {/if}">
-            <label class="col-sm-2 control-label">Last Name</label>
+            <label class="col-sm-2 control-label">{msg:last_name}</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" id="lastName" name="lastName" value="{owner.lastName ?: ''}" />
@@ -35,7 +35,7 @@
 
 
         <div class="form-group {#if errors['address'] != null} has-error {/if}">
-            <label class="col-sm-2 control-label">Address</label>
+            <label class="col-sm-2 control-label">{msg:address}</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" id="address" name="address" value="{owner.address ?: ''}" />
@@ -50,7 +50,7 @@
 
 
         <div class="form-group {#if errors['city'] != null} has-error {/if}">
-            <label class="col-sm-2 control-label">City</label>
+            <label class="col-sm-2 control-label">{msg:city}</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" id="city" name="city" value="{owner.city ?: ''}" />
@@ -65,7 +65,7 @@
 
 
         <div class="form-group {#if errors['telephone'] != null} has-error {/if}">
-            <label class="col-sm-2 control-label">Telephone</label>
+            <label class="col-sm-2 control-label">{msg:telephone}</label>
             <div class="col-sm-10">
                 <div>
                     <input class="form-control" type="text" id="telephone" name="telephone" value="{owner.telephone ?: ''}" />
@@ -83,9 +83,9 @@
         <div class="col-sm-offset-2 col-sm-10">
             <button class="btn btn-default" type="submit">
                 {#if owner}
-                Edit Owner
+                {msg:edit_owner}
                 {#else}
-                Add Owner
+                {msg:add_owner}
                 {/if}
             </button>
         </div>

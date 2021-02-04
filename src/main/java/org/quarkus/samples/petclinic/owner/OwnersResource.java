@@ -1,14 +1,12 @@
 package org.quarkus.samples.petclinic.owner;
 
-import org.quarkus.samples.petclinic.system.LocaleVariantCreator;
-import org.quarkus.samples.petclinic.system.Templates;
+import org.quarkus.samples.petclinic.system.TemplatesLocale;
 import org.quarkus.samples.petclinic.visit.Visit;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +29,9 @@ import io.quarkus.qute.TemplateInstance;
 public class OwnersResource {
 
     @Inject
+    TemplatesLocale templates;
+
+    @Inject
     Validator validator;
 
     @GET
@@ -42,8 +43,7 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance findTemplate() {
-        Locale forLanguageTag = Locale.forLanguageTag("es");
-        return Templates.findOwners(Collections.EMPTY_LIST).setAttribute(TemplateInstance.SELECTED_VARIANT, LocaleVariantCreator.locale(forLanguageTag));
+        return templates.findOwners(Collections.EMPTY_LIST);
     }
 
     @GET
@@ -55,7 +55,7 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance createTemplate() {
-        return Templates.createOrUpdateOwnerForm(null, new HashMap<>());
+        return templates.createOrUpdateOwnerForm(null, new HashMap<>());
     }
 
     @GET
@@ -67,7 +67,7 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance editTemplate(@PathParam("ownerId") Long ownerId) {
-        return Templates.createOrUpdateOwnerForm(Owner.findById(ownerId), new  HashMap<>());
+        return templates.createOrUpdateOwnerForm(Owner.findById(ownerId), new  HashMap<>());
     }
 
     @GET
@@ -79,7 +79,7 @@ public class OwnersResource {
      * @return
      */
     public TemplateInstance showOwner(@PathParam("ownerId") Long ownerId) {
-        return Templates.ownerDetails(Owner.findById(ownerId));
+        return templates.ownerDetails(Owner.findById(ownerId));
     }
 
     @POST
@@ -100,11 +100,11 @@ public class OwnersResource {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
 
-            return Templates.createOrUpdateOwnerForm(null, errors);
+            return templates.createOrUpdateOwnerForm(null, errors);
 
         } else {
             owner.persist();
-            return Templates.ownerDetails(owner);
+            return templates.ownerDetails(owner);
         }
     }
     
@@ -126,11 +126,11 @@ public class OwnersResource {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
 
-            return Templates.createOrUpdateOwnerForm(owner, errors);
+            return templates.createOrUpdateOwnerForm(owner, errors);
 
         } else {
             // We need to reattach the Owner object. Since method is transactional, the update occurs automatically.
-            return Templates.ownerDetails(owner.attach());
+            return templates.ownerDetails(owner.attach());
         }
     }
 
@@ -153,18 +153,17 @@ public class OwnersResource {
         // find owners by last name
         if (owners.isEmpty()) {
             // no owners found
-            return Templates.findOwners(Arrays.asList("lastName not found"));
+            return templates.findOwners(Arrays.asList("lastName not found"));
         }
         if (owners.size() == 1) {
             // 1 owner found
             Owner owner = owners.iterator().next();
-            return Templates.ownerDetails(setVisits(owner));
+            return templates.ownerDetails(setVisits(owner));
         }
         
-        return Templates.ownersList(owners);
+        return templates.ownersList(owners);
 
     }
-
 
     protected Owner setVisits(Owner owner) {
         for (Pet pet : owner.pets) {
