@@ -55,7 +55,7 @@ public class TemplatesLocale {
     }
 
     protected Locale getConfiguredLocale() {
-        return  Locale.forLanguageTag("es");
+        return  Locale.getDefault();
     }
 
 }

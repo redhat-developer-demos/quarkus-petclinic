@@ -1,0 +1,17 @@
+= Quarkus Petclinic project
+
+== Run Locally
+
+[source, bash]
+----
+./mvnw compile quarkus:dev
+----
+
+== Kubernetes
+
+[source, bash]
+----
+./db.sh
+
+./petclinic.sh
+----
