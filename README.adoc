@@ -15,3 +15,12 @@
 
 ./petclinic.sh
 ----
+
+== Create a new Container
+
+Need to have an account to quay.io with writting permissions to rhdevelopers org.
+
+[source, bash]
+----
+./mvnw package -DskipTests -Dquarkus.container-image.push=true
+----
