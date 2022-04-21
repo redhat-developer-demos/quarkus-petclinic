@@ -10,8 +10,8 @@ import org.quarkus.samples.petclinic.owner.PetType;
 import org.quarkus.samples.petclinic.vet.Vet;
 import org.quarkus.samples.petclinic.visit.Visit;
 
+import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
-import io.quarkus.qute.api.CheckedTemplate;
 
 @CheckedTemplate
 public class Templates {
