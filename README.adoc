@@ -2,6 +2,15 @@
 
 == Run Locally
 
+=== Create css
+
+[source, bash]
+----
+./mvnw compile -Pcss
+----
+
+=== Run application
+
 [source, bash]
 ----
 ./mvnw compile quarkus:dev
