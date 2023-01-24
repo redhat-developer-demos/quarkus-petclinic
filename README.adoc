@@ -9,11 +9,27 @@
 ./mvnw compile -Pcss
 ----
 
-=== Run application
+=== Dev mode
 
 [source, bash]
 ----
 ./mvnw compile quarkus:dev
+----
+
+=== Production jar
+
+Start docker container:
+
+[source, bash]
+----
+docker run --rm=true -e POSTGRES_USER=petclinic -e POSTGRES_PASSWORD=petclinic -e POSTGRES_DB=petclinic -p 5432:5432 postgres:14
+----
+
+Start the application:
+
+[source, bash]
+----
+java -Dquarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/petclinic -Dquarkus.datasource.username=petclinic -Dquarkus.datasource.password=petclinic -jar target/quarkus-app/quarkus-run.jar
 ----
 
 == Kubernetes
