@@ -42,7 +42,7 @@
             <dt>{msg:name}</dt>
             <dd>{pet.name}</dd>
             <dt>{msg:birthdate}</dt>
-            <dd>{pet.birthDate.format('yyyy-MM-dd')}</dd>
+            <dd>{pet.birthDate.format()}</dd>
             <dt>{msg:type}</dt>
             <dd>{pet.type.stringify}</dd>
           </dl>
@@ -62,7 +62,7 @@
             </thead>
             {#for visit in pet.visits}
             <tr>
-              <td>{visit.date.format('yyyy-MM-dd')}</td>
+              <td>{visit.date.format()}</td>
               <td>{visit.description ?: ''}</td>
             </tr>
             {/for}

@@ -17,7 +17,7 @@
     </thead>
     <tr>
         <td>{pet.name}</td>
-        <td>{pet.birthDate.format('yyyy-MM-dd')}</td>
+        <td>{pet.birthDate.format()}</td>
         <td>{pet.type.name}</td>
         <td>{pet.owner.firstName} {pet.owner.lastName}</td>
     </tr>
@@ -74,7 +74,7 @@
     <tr>
         {#if visit}
         {#for v in pet.visits}
-        <td>{v.date.format('yyyy-MM-dd')}</td>
+        <td>{v.date.format()}</td>
         <td>{v.description}</td>
         {/for}
         {/if}
