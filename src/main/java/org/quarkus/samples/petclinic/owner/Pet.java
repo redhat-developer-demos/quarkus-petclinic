@@ -58,7 +58,7 @@ public class Pet extends PanacheEntity {
 		this.visits = new LinkedHashSet<>(visits);
 	}
 
-	public List<Visit> getVisits() {
+	public List<Visit> getSortedVisits() {
 		List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
 		Collections.sort(sortedVisits, new VisitComparator());
 		return Collections.unmodifiableList(sortedVisits);

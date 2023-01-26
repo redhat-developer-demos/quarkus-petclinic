@@ -60,7 +60,7 @@
                   href="/owners/{owner.id}/pets/{pet.id}/visits/new">{msg:add_visit}</a></td>
               </tr>
             </thead>
-            {#for visit in pet.visits}
+            {#for visit in pet.sortedVisits}
             <tr>
               <td>{visit.date.format()}</td>
               <td>{visit.description ?: ''}</td>

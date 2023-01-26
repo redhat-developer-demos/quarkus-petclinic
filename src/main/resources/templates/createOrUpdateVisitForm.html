@@ -73,7 +73,7 @@
     </tr>
     <tr>
         {#if visit}
-        {#for v in pet.visits}
+        {#for v in pet.sortedVisits}
         <td>{v.date.format()}</td>
         <td>{v.description}</td>
         {/for}

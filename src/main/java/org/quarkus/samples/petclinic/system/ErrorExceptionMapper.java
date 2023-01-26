@@ -11,14 +11,15 @@ import org.jboss.logging.Logger;
 public class ErrorExceptionMapper implements ExceptionMapper<Exception> {
 
     private static final Logger LOG = Logger.getLogger(ErrorExceptionMapper.class);
+    public static final String ERROR_HEADER = "x-error";
 
     @Inject
     TemplatesLocale templates;
 
     @Override
     public Response toResponse(Exception exception) {
-        LOG.error("Interal application error", exception);
-        return Response.ok(templates.error(exception.getMessage())).build();
+        LOG.error("Internal application error", exception);
+        return Response.ok(templates.error(exception.getMessage())).header(ERROR_HEADER, true).build();
     }
 
 }
