@@ -1,6 +1,6 @@
 package org.quarkus.samples.petclinic.system;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Collection;
 import java.util.List;

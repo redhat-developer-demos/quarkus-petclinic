@@ -1,6 +1,6 @@
 package org.quarkus.samples.petclinic.owner;
 
-import javax.ws.rs.FormParam;
+import jakarta.ws.rs.FormParam;
 
 public class OwnerForm {
     
