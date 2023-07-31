@@ -14,7 +14,7 @@ components:
     id: redhat/vscode-openshift-connector/latest
   - type: dockerimage
     alias: maven
-    image: 'registry.redhat.io/codeready-workspaces/plugin-java11-rhel8@sha256:641e223f5efbc32bab3461aa000e3a50a5dcca063331322158d1c959129ffd99'
+    image: 'registry.redhat.io/devspaces/udi-rhel8@sha256:b1f112760b2640b5e8612869536a000612837e8e247c74d3d99e9fcfbc56d2f3'
     env:
       - name: JAVA_OPTS
         value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
