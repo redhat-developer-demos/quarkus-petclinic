@@ -96,7 +96,7 @@ public interface AppMessages {
     @Message("Previous Visits")
     String previous_visits();
 
-    @Message("Something happened...")
+    @Message("Something has happened...")
     String something_wrong();
 
 }
