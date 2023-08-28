@@ -1,6 +1,7 @@
 package org.quarkus.samples.petclinic.owner;
 
 
+import io.quarkus.security.Authenticated;
 import org.quarkus.samples.petclinic.system.Templates;
 import org.quarkus.samples.petclinic.system.TemplatesLocale;
 
@@ -24,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import io.quarkus.qute.TemplateInstance;
 
 @Path("/owners")
+@Authenticated
 public class PetResource {
     
     @Inject

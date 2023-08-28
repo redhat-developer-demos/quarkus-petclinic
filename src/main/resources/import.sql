@@ -51,3 +51,6 @@ INSERT INTO visits(id, pet_id, visit_date, description) VALUES (1001, 1007, '201
 INSERT INTO visits(id, pet_id, visit_date, description) VALUES (1002, 1008, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id, pet_id, visit_date, description) VALUES (1003, 1008, '2013-01-03', 'neutered');
 INSERT INTO visits(id, pet_id, visit_date, description) VALUES (1004, 1007, '2013-01-04', 'spayed');
+INSERT INTO users (email, password) VALUES
+                                        ('example@email.com', '$2a$10$1o1y7Q2Qf8k5g94u804yX.b0o12y.oS.i18.827d0716417721329484'),
+                                        ('example1@email.com', '$2a$10$1o1y7Q2Qf8k5g94u804yX.b0o12y.oS.i18.827d0716417721329484');

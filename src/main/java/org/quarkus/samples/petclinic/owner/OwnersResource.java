@@ -1,5 +1,6 @@
 package org.quarkus.samples.petclinic.owner;
 
+import io.quarkus.security.Authenticated;
 import org.quarkus.samples.petclinic.system.TemplatesLocale;
 import org.quarkus.samples.petclinic.visit.Visit;
 
@@ -36,6 +37,7 @@ public class OwnersResource {
 
     @GET
     @Path("/find")
+    @Authenticated
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the findOwners.html
@@ -48,6 +50,7 @@ public class OwnersResource {
 
     @GET
     @Path("new")
+    @Authenticated
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
@@ -60,6 +63,7 @@ public class OwnersResource {
 
     @GET
     @Path("{ownerId}/edit")
+    @Authenticated
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
@@ -72,6 +76,7 @@ public class OwnersResource {
 
     @GET
     @Path("{ownerId}")
+    @Authenticated
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
@@ -85,6 +90,7 @@ public class OwnersResource {
     @POST
     @Path("new")
     @Produces(MediaType.TEXT_HTML)
+    @Authenticated
     @Transactional
     /**
      * Renders the createOrUpdateOwnerForm.html
@@ -111,6 +117,7 @@ public class OwnersResource {
     @POST
     @Path("{ownerId}/edit")
     @Transactional
+    @Authenticated
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
@@ -136,6 +143,7 @@ public class OwnersResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
+    @Authenticated
     /**
      * Process the findOwners form
      */
