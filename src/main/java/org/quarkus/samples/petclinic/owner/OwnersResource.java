@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
@@ -34,6 +35,7 @@ public class OwnersResource {
     @Inject
     Validator validator;
 
+    @RolesAllowed("USER") //  roles based on your application's needs can be defined.
     @GET
     @Path("/find")
     @Produces(MediaType.TEXT_HTML)
