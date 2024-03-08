@@ -1,7 +1,7 @@
 package org.quarkus.samples.petclinic;
 
 import io.smallrye.common.annotation.Blocking;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
 
 /**
  * Used to ensure that all endpoints are blocking by default

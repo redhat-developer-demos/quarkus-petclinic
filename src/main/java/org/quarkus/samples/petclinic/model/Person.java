@@ -1,9 +1,9 @@
 package org.quarkus.samples.petclinic.model;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotEmpty;
-import javax.ws.rs.FormParam;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.ws.rs.FormParam;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
