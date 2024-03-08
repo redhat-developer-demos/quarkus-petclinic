@@ -9,11 +9,11 @@ INSERT INTO specialties VALUES (1001, 'radiology');
 INSERT INTO specialties VALUES (1002, 'surgery');
 INSERT INTO specialties VALUES (1003, 'dentistry');
 
-INSERT INTO vet_specialties VALUES (1002, 1001);
-INSERT INTO vet_specialties VALUES (1003, 1002);
+INSERT INTO vet_specialties VALUES (1001, 1002);
+INSERT INTO vet_specialties VALUES (1002, 1003);
 INSERT INTO vet_specialties VALUES (1003, 1003);
-INSERT INTO vet_specialties VALUES (1004, 1002);
-INSERT INTO vet_specialties VALUES (1005, 1001);
+INSERT INTO vet_specialties VALUES (1002, 1004);
+INSERT INTO vet_specialties VALUES (1001, 1005);
 
 INSERT INTO types VALUES (1001, 'cat');
 INSERT INTO types VALUES (1002, 'dog');
