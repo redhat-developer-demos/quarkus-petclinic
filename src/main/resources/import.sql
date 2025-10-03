@@ -5,9 +5,9 @@ INSERT INTO vets(id, first_name, last_name) VALUES (1004, 'Rafael', 'Ortega');
 INSERT INTO vets(id, first_name, last_name) VALUES (1005, 'Henry', 'Stevens');
 INSERT INTO vets(id, first_name, last_name) VALUES (1006, 'Sharon', 'Jenkins');
 
-INSERT INTO specialties VALUES (1001, 'radiology');
-INSERT INTO specialties VALUES (1002, 'surgery');
-INSERT INTO specialties VALUES (1003, 'dentistry');
+INSERT INTO specialties(id, name) VALUES (1001, 'radiology');
+INSERT INTO specialties(id, name) VALUES (1002, 'surgery');
+INSERT INTO specialties(id, name) VALUES (1003, 'dentistry');
 
 INSERT INTO vet_specialties(vet_id, specialty_id) VALUES (1002, 1001);
 INSERT INTO vet_specialties(vet_id, specialty_id) VALUES (1003, 1002);
@@ -15,23 +15,23 @@ INSERT INTO vet_specialties(vet_id, specialty_id) VALUES (1003, 1003);
 INSERT INTO vet_specialties(vet_id, specialty_id) VALUES (1004, 1002);
 INSERT INTO vet_specialties(vet_id, specialty_id) VALUES (1005, 1001);
 
-INSERT INTO types VALUES (1001, 'cat');
-INSERT INTO types VALUES (1002, 'dog');
-INSERT INTO types VALUES (1003, 'lizard');
-INSERT INTO types VALUES (1004, 'snake');
-INSERT INTO types VALUES (1005, 'bird');
-INSERT INTO types VALUES (1006, 'hamster');
+INSERT INTO types(id, name) VALUES (1001, 'cat');
+INSERT INTO types(id, name) VALUES (1002, 'dog');
+INSERT INTO types(id, name) VALUES (1003, 'lizard');
+INSERT INTO types(id, name) VALUES (1004, 'snake');
+INSERT INTO types(id, name) VALUES (1005, 'bird');
+INSERT INTO types(id, name) VALUES (1006, 'hamster');
 
-INSERT INTO owners VALUES (1001, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023');
-INSERT INTO owners VALUES (1002, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
-INSERT INTO owners VALUES (1003, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763');
-INSERT INTO owners VALUES (1004, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198');
-INSERT INTO owners VALUES (1005, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765');
-INSERT INTO owners VALUES (1006, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654');
-INSERT INTO owners VALUES (1007, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387');
-INSERT INTO owners VALUES (1008, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683');
-INSERT INTO owners VALUES (1009, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435');
-INSERT INTO owners VALUES (1010, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1001, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1002, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1003, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1004, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1005, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1006, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1007, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1008, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1009, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435');
+INSERT INTO owners(id, first_name, last_name, address, city, telephone) VALUES (1010, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
 
 INSERT INTO pets(id, name, birth_date, type_id, owner_id) VALUES (1001, 'Leo', '2010-09-07', 1001, 1001);
 INSERT INTO pets(id, name, birth_date, type_id, owner_id) VALUES (1002, 'Basil', '2012-08-06', 1006, 1002);
