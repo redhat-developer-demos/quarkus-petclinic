@@ -35,33 +35,9 @@ public class Owner extends Person {
     @FormParam("telephone")
     public String telephone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER) // it
-                                                                                       // is
-                                                                                       // eager
-                                                                                       // but
-                                                                                       // probably
-                                                                                       // it
-                                                                                       // could
-                                                                                       // be
-                                                                                       // changed
-                                                                                       // to
-                                                                                       // lazy
-                                                                                       // and
-                                                                                       // make
-                                                                                       // some
-                                                                                       // lazy
-                                                                                       // load
-                                                                                       // before
-                                                                                       // rendering
-                                                                                       // template
-                                                                                       // but
-                                                                                       // we
-                                                                                       // might
-                                                                                       // end
-                                                                                       // up
-                                                                                       // in
-                                                                                       // similar
-                                                                                       // performance
+    // it is eager but probably it could be changed to lazy and make some lazy load
+    // before rendering template but we might end up in similar performance
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     public Set<Pet> pets;
 
     public static Collection<Owner> findByLastName(String name) {
