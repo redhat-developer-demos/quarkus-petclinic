@@ -1,10 +1,5 @@
 package org.quarkus.samples.petclinic.system;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import org.quarkus.samples.petclinic.owner.Owner;
 import org.quarkus.samples.petclinic.owner.Pet;
@@ -12,11 +7,16 @@ import org.quarkus.samples.petclinic.owner.PetType;
 import org.quarkus.samples.petclinic.vet.Vet;
 import org.quarkus.samples.petclinic.visit.Visit;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import io.quarkus.qute.TemplateInstance;
 
 @ApplicationScoped
 public class TemplatesLocale {
-    
+
     public TemplateInstance welcome() {
         return Templates.welcome().setAttribute("locale", getConfiguredLocale());
     }
@@ -45,8 +45,10 @@ public class TemplatesLocale {
         return Templates.ownersList(owners).setAttribute("locale", getConfiguredLocale());
     }
 
-    public TemplateInstance createOrUpdatePetForm(Owner owner, Pet pet, List<PetType> petTypes, Map<String, String> errors) {
-        return Templates.createOrUpdatePetForm(owner, pet, petTypes, errors).setAttribute("locale", getConfiguredLocale());
+    public TemplateInstance createOrUpdatePetForm(Owner owner, Pet pet, List<PetType> petTypes,
+            Map<String, String> errors) {
+        return Templates.createOrUpdatePetForm(owner, pet, petTypes, errors).setAttribute("locale",
+                getConfiguredLocale());
     }
 
     public TemplateInstance createOrUpdateVisitForm(Pet pet, Visit visit, Map<String, String> errors) {
@@ -54,7 +56,7 @@ public class TemplatesLocale {
     }
 
     protected Locale getConfiguredLocale() {
-        return  Locale.getDefault();
+        return Locale.getDefault();
     }
 
 }

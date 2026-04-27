@@ -8,5 +8,5 @@ public class SpecialityComparator implements Comparator<Specialty> {
     public int compare(Specialty o1, Specialty o2) {
         return o1.name.compareTo(o2.name);
     }
-    
+
 }

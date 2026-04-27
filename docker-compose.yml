@@ -18,14 +18,14 @@ services:
       - petclinic
 
   quarkus-petclinic-db:
-    image: "postgres:14"
+    image: "postgres:18"
     mem_limit: 128m
     environment:
       - POSTGRES_USER=developer
       - POSTGRES_PASSWORD=developer
       - POSTGRES_DB=mydb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready --dbname $$POSTGRES_DB --username $$POSTGRES_USER"]
+      test: [ "CMD-SHELL", "pg_isready --dbname $$POSTGRES_DB --username $$POSTGRES_USER" ]
       interval: 5s
       timeout: 5s
       retries: 6

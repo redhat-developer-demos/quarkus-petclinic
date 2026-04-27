@@ -5,7 +5,7 @@ import io.quarkus.qute.i18n.Message;
 
 @Localized("es")
 public interface SpanishAppMessages extends AppMessages {
-    
+
     @Override
     @Message("Buscar Propietario")
     String find_owner();

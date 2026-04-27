@@ -5,16 +5,18 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import org.quarkus.samples.petclinic.system.Templates;
+import org.jboss.logging.Logger;
 import org.quarkus.samples.petclinic.system.TemplatesLocale;
-
-import io.quarkus.qute.TemplateInstance;
 
 import java.util.List;
 
+import io.quarkus.qute.TemplateInstance;
+
 @Path("/")
 public class VetResource {
-    
+
+    private static final Logger LOG = Logger.getLogger(VetResource.class);
+
     @Inject
     TemplatesLocale templates;
 
@@ -23,7 +25,7 @@ public class VetResource {
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance showResourcesVetPage() {
         List<Vet> vets = Vet.listAll();
-        System.out.println(vets);
+        LOG.debugf("Vets: %s", vets);
         return templates.vetList(vets);
     }
 
@@ -31,8 +33,8 @@ public class VetResource {
     @Path("/vets")
     public Vets showResourcesVetList() {
         Vets vets = new Vets();
-		vets.getVetList().addAll(Vet.listAll());
-		return vets;
+        vets.getVetList().addAll(Vet.listAll());
+        return vets;
     }
 
 }

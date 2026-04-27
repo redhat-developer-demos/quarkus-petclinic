@@ -8,4 +8,5 @@ import jakarta.ws.rs.core.Application;
  */
 @Blocking
 public class JaxRsApplication extends Application {
+
 }
