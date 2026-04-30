@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -15,13 +16,11 @@ import jakarta.ws.rs.core.MediaType;
 import org.quarkus.samples.petclinic.system.TemplatesLocale;
 import org.quarkus.samples.petclinic.visit.Visit;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.quarkus.qute.TemplateInstance;
 
@@ -39,11 +38,11 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the findOwners.html
-     * 
+     *
      * @return
      */
     public TemplateInstance findTemplate() {
-        return templates.findOwners(Collections.EMPTY_LIST);
+        return templates.findOwners(List.of());
     }
 
     @GET
@@ -51,11 +50,11 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance createTemplate() {
-        return templates.createOrUpdateOwnerForm(null, new HashMap<>());
+        return templates.createOrUpdateOwnerForm(null, Map.of());
     }
 
     @GET
@@ -63,11 +62,11 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance editTemplate(@PathParam("ownerId") Long ownerId) {
-        return templates.createOrUpdateOwnerForm(Owner.findById(ownerId), new  HashMap<>());
+        return templates.createOrUpdateOwnerForm(findOwner(ownerId), Map.of());
     }
 
     @GET
@@ -75,11 +74,11 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance showOwner(@PathParam("ownerId") Long ownerId) {
-        return templates.ownerDetails(Owner.findById(ownerId));
+        return templates.ownerDetails(findOwner(ownerId));
     }
 
     @POST
@@ -88,50 +87,40 @@ public class OwnersResource {
     @Transactional
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance processCreationForm(@BeanParam Owner owner) {
         final Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
-        final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
-            for (ConstraintViolation<Owner> violation : violations) {
-                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
-            }
-
-            return templates.createOrUpdateOwnerForm(null, errors);
-
-        } else {
-            owner.persist();
-            return templates.ownerDetails(owner);
+            return templates.createOrUpdateOwnerForm(null, toErrorMap(violations));
         }
+        owner.persist();
+        return templates.ownerDetails(owner);
     }
-    
+
     @POST
     @Path("{ownerId}/edit")
     @Transactional
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance processUpdateOwnerForm(@BeanParam Owner owner, @PathParam("ownerId") Long ownerId) {
         final Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
-        final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
-            for (ConstraintViolation<Owner> violation : violations) {
-                errors.put(violation.getPropertyPath().toString(), violation.getMessage());
-            }
-
-            return templates.createOrUpdateOwnerForm(owner, errors);
-
-        } else {
-            // We need to reattach the Owner object. Since method is transactional, the update occurs automatically.
-            return templates.ownerDetails(owner.attach());
+            return templates.createOrUpdateOwnerForm(owner, toErrorMap(violations));
         }
+        // We need to reattach the Owner object. Since method is transactional, the
+        // update occurs automatically.
+        return templates.ownerDetails(owner.attach());
+    }
+
+    private static <T> Map<String, String> toErrorMap(Set<ConstraintViolation<T>> violations) {
+        return violations.stream().collect(
+                Collectors.toMap(v -> v.getPropertyPath().toString(), ConstraintViolation::getMessage, (a, b) -> a));
     }
 
     @GET
@@ -141,26 +130,21 @@ public class OwnersResource {
      */
     public TemplateInstance processFindForm(@QueryParam("lastName") String lastName) {
 
-        Collection<Owner> owners = null;
-
         // allow parameterless GET request for /owners to return all records
-        if (lastName == null || "".equals(lastName.trim())) {
-            owners = Owner.listAll(); // empty string signifies broadest possible search
-        } else {
-            owners = Owner.findByLastName(lastName);
-        }
+        Collection<Owner> owners = (lastName == null || lastName.isBlank()) ? Owner.listAll()
+                : Owner.findByLastName(lastName);
 
         // find owners by last name
         if (owners.isEmpty()) {
             // no owners found
-            return templates.findOwners(Arrays.asList("lastName not found"));
+            return templates.findOwners(List.of("lastName not found"));
         }
         if (owners.size() == 1) {
             // 1 owner found
             Owner owner = owners.iterator().next();
             return templates.ownerDetails(setVisits(owner));
         }
-        
+
         return templates.ownersList(owners);
 
     }
@@ -168,6 +152,14 @@ public class OwnersResource {
     protected Owner setVisits(Owner owner) {
         for (Pet pet : owner.pets) {
             pet.setVisitsInternal(Visit.findByPetId(pet.id));
+        }
+        return owner;
+    }
+
+    private static Owner findOwner(Long ownerId) {
+        Owner owner = Owner.findById(ownerId);
+        if (owner == null) {
+            throw new NotFoundException("Owner not found: " + ownerId);
         }
         return owner;
     }

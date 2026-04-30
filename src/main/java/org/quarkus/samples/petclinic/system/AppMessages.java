@@ -5,7 +5,7 @@ import io.quarkus.qute.i18n.MessageBundle;
 
 @MessageBundle
 public interface AppMessages {
-    
+
     @Message("Find Owner")
     String find_owner();
 

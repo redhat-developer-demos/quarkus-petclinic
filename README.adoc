@@ -22,7 +22,7 @@ Start docker container:
 
 [source, bash]
 ----
-docker run --rm=true -e POSTGRES_USER=petclinic -e POSTGRES_PASSWORD=petclinic -e POSTGRES_DB=petclinic -p 5432:5432 postgres:14
+docker run --rm=true -e POSTGRES_USER=petclinic -e POSTGRES_PASSWORD=petclinic -e POSTGRES_DB=petclinic -p 5432:5432 postgres:18
 ----
 
 Start the application:

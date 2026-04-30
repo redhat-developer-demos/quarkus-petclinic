@@ -12,10 +12,10 @@ import java.time.LocalDate;
 public class LocalDateParamConverterProvider implements ParamConverterProvider {
 
     @Override
-    public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType,
-                                              Annotation[] annotations) {
-        if (rawType.equals(LocalDate.class))
+    public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType, Annotation[] annotations) {
+        if (rawType.equals(LocalDate.class)) {
             return (ParamConverter<T>) new LocalDateConverter();
+        }
         return null;
     }
 

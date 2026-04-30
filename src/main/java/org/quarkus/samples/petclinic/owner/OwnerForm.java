@@ -1,10 +1,9 @@
 package org.quarkus.samples.petclinic.owner;
 
-
 import jakarta.ws.rs.FormParam;
 
 public class OwnerForm {
-    
+
     @FormParam("firstName")
     public String firstName;
 

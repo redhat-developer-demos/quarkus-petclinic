@@ -25,7 +25,7 @@
   -webkit-transition: opacity 0.12s ease-in-out;
   -o-transition: opacity 0.12s ease-in-out; }
 
-.navbar a.navbar-brand:hover span {
+.navbar a:hover.navbar-brand span {
   opacity: 1; }
 
 .navbar li > a, .navbar-text {

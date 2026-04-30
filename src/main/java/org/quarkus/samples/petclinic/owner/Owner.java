@@ -1,9 +1,5 @@
 package org.quarkus.samples.petclinic.owner;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +10,10 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.ws.rs.FormParam;
 import org.quarkus.samples.petclinic.model.Person;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "owners")
@@ -35,7 +35,9 @@ public class Owner extends Person {
     @FormParam("telephone")
     public String telephone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER) // it is eager but probably it could be changed to lazy and make some lazy load before rendering template but we might end up in similar performance
+    // it is eager but probably it could be changed to lazy and make some lazy load
+    // before rendering template but we might end up in similar performance
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     public Set<Pet> pets;
 
     public static Collection<Owner> findByLastName(String name) {
@@ -57,10 +59,10 @@ public class Owner extends Person {
     }
 
     protected Set<Pet> getPetsInternal() {
-		if (this.pets == null) {
-			this.pets = new HashSet<>();
-		}
-		return this.pets;
-	}
+        if (this.pets == null) {
+            this.pets = new HashSet<>();
+        }
+        return this.pets;
+    }
 
 }
